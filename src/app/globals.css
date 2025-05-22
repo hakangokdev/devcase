@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700|Cairo:700,600,500,400|Poppins:500|Roboto:400");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --heading-2-font-size: 36px;
+  --heading-2-letter-spacing: 0px;
+  --heading-2-line-height: 44px;
+  --heading-2-font-style: normal;
+  --heading-2-font-weight: 700;
+
+  --heading-3-font-size: 28px;
+  --heading-3-letter-spacing: 0px;
+  --heading-3-line-height: 32px;
+  --heading-3-font-style: normal;
+  --heading-3-font-weight: 700;
+
+  --heading-4-font-size: 24px;
+  --heading-4-letter-spacing: 0px;
+  --heading-4-line-height: 28px;
+  --heading-4-font-style: normal;
+  --heading-4-font-weight: 600;
+
+  --heading-5-font-size: 20px;
+  --heading-5-letter-spacing: 0px;
+  --heading-5-line-height: 24px;
+  --heading-5-font-style: normal;
+  --heading-5-font-weight: 700;
+
+  --heading-6-font-size: 18px;
+  --heading-6-letter-spacing: 0px;
+  --heading-6-line-height: 22px;
+  --heading-6-font-style: normal;
+  --heading-6-font-weight: 500;
+
+  --paragraph-font-size: 16px;
+  --paragraph-letter-spacing: 0px;
+  --paragraph-line-height: 20px;
+  --paragraph-font-style: normal;
+  --paragraph-font-weight: 400;
+
+  --label-font-size: 14px;
+  --label-letter-spacing: 0px;
+  --label-line-height: 18px;
+  --label-font-style: normal;
+  --label-font-weight: 600;
+
+  --label-2-font-size: 12px;
+  --label-2-letter-spacing: 0px;
+  --label-2-line-height: 16px;
+  --label-2-font-style: normal;
+  --label-2-font-weight: 500;
+}
+
+html, body, #root, #__next {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+} 
