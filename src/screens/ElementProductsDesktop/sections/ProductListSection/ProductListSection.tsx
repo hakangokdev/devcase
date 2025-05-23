@@ -742,7 +742,7 @@ export const ProductListSection = (): JSX.Element => {
                               {product.status ? (
                                 <CheckCircleIcon className="w-[22px] h-[22px]" />
                               ) : (
-                                <ClockIcon className="w-[22px] h-[22px]" /> 
+                                <img src="/hourglass.svg" alt="Pending" className="w-[22px] h-[22px]" />
                               )}
                               <span className="font-label-2 font-['Cairo'] text-[length:var(--label-2-font-size)] tracking-[var(--label-2-letter-spacing)] leading-[var(--label-2-line-height)] [font-style:var(--label-2-font-style)]">
                                 {getStatusDisplay(product.status)}
