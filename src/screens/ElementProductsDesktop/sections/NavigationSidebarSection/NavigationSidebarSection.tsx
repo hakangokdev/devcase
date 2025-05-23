@@ -12,6 +12,7 @@ import { Input } from "../../../../components/ui/input";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
 import { X, Search } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
+import { Logo } from "../../../../components/ui/logo";
 
 // Define menu item data for reusability
 const mainMenuItems = [
@@ -83,21 +84,7 @@ export const NavigationSidebarSection = (): JSX.Element => {
     <aside className={`flex flex-col ${isMobile ? 'w-full' : 'w-[260px]'} bg-white shadow-shadow-1 h-screen overflow-hidden`}>
       {/* Header with Logo */}
       <header className="flex h-[70px] items-center justify-between px-5 py-0 border-b border-[#ececeb]">
-        <div className="flex items-center">
-          <div className="relative w-[50px] h-[50px] rounded-full bg-[#222]">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <img
-                className="w-[30px] h-[30px]"
-                alt="Logo"
-                src="/subtract.svg"
-              />
-            </div>
-          </div>
-          <div className="ml-2">
-            <div className="text-black font-bold text-lg">master</div>
-            <div className="text-[#4F56D3] font-bold text-lg leading-none">POS</div>
-          </div>
-        </div>
+        <Logo size="small" />
         {!isMobile && (
           <div className="flex flex-col gap-1.5 cursor-pointer">
             <div className="w-[20px] h-[2px] bg-[#3f4059] rounded-[7.77px]" />

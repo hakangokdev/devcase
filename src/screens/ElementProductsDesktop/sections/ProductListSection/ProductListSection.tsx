@@ -82,7 +82,7 @@ export const ProductListSection = (): JSX.Element => {
   const [isMobile, setIsMobile] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const itemsPerPage = 20; // Items per page from API
+  const itemsPerPage = 12; // Items per page from API
 
   // Check if we're on mobile
   useEffect(() => {
@@ -154,25 +154,36 @@ export const ProductListSection = (): JSX.Element => {
     const isSelected = selectedProducts.includes(product.id);
     
     return (
-      <div className="relative flex items-center py-3 bg-white">
-        <div className="flex items-center w-full">
-          <Checkbox 
-            className="mr-3 w-5 h-5" 
-            checked={isSelected}
-            onClick={() => toggleProductSelection(product.id)}
-          />
-          <div className="w-10 h-10 mr-3 bg-[#f5f5f5] rounded-md overflow-hidden">
-            {product.imageUrl && (
-              <img 
-                src={product.imageUrl} 
-                alt={product.name} 
-                className="w-full h-full object-cover"
+      <div className="relative flex items-center py-5 bg-white border-b border-[#ECECEB]">
+        <div className="flex items-center w-full px-4">
+          <div className="flex items-center gap-4">
+            {isSelected ? (
+              <img
+                className="w-[22px] h-[22px]"
+                alt="Checkbox"
+                src="/checkbox.svg"
+                onClick={() => toggleProductSelection(product.id)}
+              />
+            ) : (
+              <Checkbox 
+                className="w-[22px] h-[22px] rounded border border-solid border-[#b2b3b9]" 
+                checked={isSelected}
+                onClick={() => toggleProductSelection(product.id)}
               />
             )}
-          </div>
-          <div className="flex-1">
-            <h3 className="font-medium text-sm text-[#333]">{product.name}</h3>
-            <p className="text-gray-400 text-xs">{product.category}</p>
+            <div className="w-12 h-12 bg-[#c4c4c4] rounded-lg border border-solid border-[#ececeb]">
+              {product.imageUrl && (
+                <img 
+                  src={product.imageUrl} 
+                  alt={product.name} 
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              )}
+            </div>
+            <div className="flex flex-col">
+              <h3 className="font-['Cairo'] font-bold text-base text-[#161919]">{product.name}</h3>
+              <p className="font-['Cairo'] text-sm text-[#B2B3B9]">{product.category}</p>
+            </div>
           </div>
         </div>
         {isSelected && (
@@ -182,182 +193,74 @@ export const ProductListSection = (): JSX.Element => {
     );
   };
 
-  // Mobile header component for the products section
-  const MobileProductsHeader = () => (
-    <div className="bg-white p-4 mb-3 rounded-lg shadow-sm">
-      <h1 className="text-xl font-bold">Products</h1>
-      <p className="text-sm text-gray-500">Manage your products</p>
+  // Mobile search and actions bar
+  const MobileSearchBar = () => (
+    <div className="flex items-center gap-2">
+      <div className="flex-1 flex h-[43px] items-center justify-center bg-white rounded-lg border border-solid border-[#ececeb]">
+        <Button variant="ghost" className="p-2.5 w-full h-full flex justify-center">
+          <img src="/search-icon-title.svg" alt="Search" className="w-[22px] h-[22px]" />
+        </Button>
+      </div>
+      
+      <div className="flex-1 flex items-center justify-center h-[43px] bg-white rounded-lg border border-solid border-[#ececeb]">
+        <Button variant="ghost" className="p-2.5 w-full h-full flex justify-center">
+          <img src="/dots-vertical-icon-title.svg" alt="Menu" className="w-[22px] h-[22px]" />
+        </Button>
+      </div>
+      
+      <div className="flex-[3] h-[43px]">
+        <Button 
+          className="flex items-center justify-center gap-2 w-full h-full bg-[#4F56D3] rounded-lg"
+        >
+          <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
+            <PlusCircleIcon className="w-3 h-3 text-white" />
+          </div>
+          <span className="font-['Cairo'] font-semibold text-white text-sm">
+            Add New Product
+          </span>
+        </Button>
+      </div>
     </div>
   );
 
-  // Mobile stat card component
-  const MobileStatCard = ({ stat }: { stat: typeof productStats[0] }) => (
-    <div className="bg-white mb-3 p-4 rounded-lg shadow-sm">
-      <p className="text-sm text-gray-500">{stat.title}</p>
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">{stat.value}</h2>
-        <div className="flex items-center">
-          {stat.trend === "up" ? (
+  // Mobile stat card component 
+  const MobileStatCard = ({ 
+    title, 
+    value, 
+    change, 
+    trend 
+  }: { 
+    title: string; 
+    value: string; 
+    change: string; 
+    trend: "up" | "down" 
+  }) => (
+    <div className="bg-white p-4 rounded-lg shadow-sm mb-3">
+      <p className="text-[#B2B3B9] text-sm mb-1">{title}</p>
+      <div className="flex flex-col">
+        <h2 className="font-['Cairo'] font-bold text-2xl text-[#161919]">{value}</h2>
+        <div className="flex items-center mt-1">
+          {trend === "up" ? (
             <img className="w-4 h-4 mr-1" alt="Trend up" src="/trendup.svg" />
           ) : (
             <img className="w-4 h-4 mr-1" alt="Trend down" src="/trenddown.svg" />
           )}
-          <span className={`text-sm ${stat.trend === "up" ? "text-green-600" : "text-red-500"}`}>
-            {stat.change}
+          <span className={`text-sm font-semibold ${trend === "up" ? "text-[#89D233]" : "text-[#F27277]"}`}>
+            {change}
           </span>
         </div>
       </div>
     </div>
   );
 
-  // Mobile search and actions bar
-  const MobileSearchBar = () => (
-    <div className="mb-4">
-      <div className="mb-3">
-        <h2 className="text-xl font-bold text-[#333]">All Products</h2>
-      </div>
-      
-      {showSearchInput ? (
-        <div className="flex items-center mb-3 bg-white rounded-lg shadow-sm">
-          <Input
-            className="flex-1 border-none focus-visible:ring-0"
-            placeholder="Search item..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <Button 
-            variant="ghost" 
-            className="p-1"
-            onClick={() => setShowSearchInput(false)}
-          >
-            <XIcon className="w-4 h-4" />
-          </Button>
-        </div>
-      ) : (
-        <div className="flex items-center gap-2">
-          <div className="flex-1 flex justify-center items-center h-[45px] bg-white rounded-lg shadow-sm">
-            <Button 
-              variant="ghost" 
-              className="p-2 w-full h-full flex justify-center"
-              onClick={() => setShowSearchInput(true)}
-            >
-              <SearchIcon className="w-5 h-5 text-gray-400" />
-            </Button>
-          </div>
-          <div className="flex-1 flex justify-center items-center h-[45px] bg-white rounded-lg shadow-sm">
-            <Button variant="ghost" className="p-2 w-full h-full flex justify-center">
-              <MoreVerticalIcon className="w-5 h-5 text-gray-400" />
-            </Button>
-          </div>
-          <div className="flex-[3] h-[45px]">
-            <Button 
-              className="flex items-center justify-center gap-2 w-full h-full bg-[#4F56D3] rounded-lg"
-            >
-              <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
-                <PlusCircleIcon className="w-3 h-3 text-white" />
-              </div>
-              <span className="font-medium text-white text-sm">
-                Add New Product
-              </span>
-            </Button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
-  // Mobile pagination component
-  const MobilePagination = ({ 
-    currentPage, 
-    totalPages, 
-    onPageChange 
-  }: { 
-    currentPage: number; 
-    totalPages: number; 
-    onPageChange: (page: number) => void;
-  }) => {
-    // Generate page numbers to display
-    const getPageNumbers = (): number[] => {
-      const pages: number[] = [];
-      const maxPagesToShow = 5;
-      
-      if (totalPages <= maxPagesToShow) {
-        // Show all pages if total pages is less than or equal to maxPagesToShow
-        for (let i = 1; i <= totalPages; i++) {
-          pages.push(i);
-        }
-      } else {
-        // Always include first page
-        pages.push(1);
-        
-        // Calculate start and end page numbers
-        let startPage = Math.max(2, currentPage - 1);
-        let endPage = Math.min(totalPages - 1, currentPage + 1);
-        
-        // Adjust if we're near the beginning
-        if (currentPage <= 3) {
-          endPage = 4;
-        }
-        
-        // Adjust if we're near the end
-        if (currentPage >= totalPages - 2) {
-          startPage = totalPages - 3;
-        }
-        
-        // Add pages
-        for (let i = startPage; i <= endPage; i++) {
-          pages.push(i);
-        }
-        
-        // Always include last page
-        if (totalPages > 1) {
-          pages.push(totalPages);
-        }
-      }
-      
-      return pages;
-    };
-    
-    const pageNumbers = getPageNumbers();
-    
-    return (
-      <div className="p-4 border-t border-gray-100">
-        <div className="text-xs text-gray-500 mb-2">
-          Showing 1-12 from 100 data
-        </div>
-        <div className="flex items-center">
-          {pageNumbers.map((page) => (
-            <Button 
-              key={page}
-              variant="outline" 
-              size="sm" 
-              className={`w-8 h-8 p-0 rounded-md mr-1 ${
-                currentPage === page 
-                  ? 'bg-[#4F56D3] text-white' 
-                  : 'text-gray-500'
-              }`}
-              onClick={() => onPageChange(page)}
-            >
-              {page}
-            </Button>
-          ))}
-          {currentPage < totalPages && (
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="w-8 h-8 p-0 rounded-md text-gray-500"
-              onClick={() => onPageChange(currentPage + 1)}
-            >
-              &gt;
-            </Button>
-          )}
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <section className={`flex flex-col ${isMobile ? 'p-4 pb-16' : 'py-5 px-5'} flex-grow h-screen overflow-y-auto bg-[#f6f6f6]`}>
+    <section 
+      className={`flex flex-col bg-[#f6f6f6] h-screen overflow-y-auto ${
+        isMobile 
+          ? 'p-4 pb-16' 
+          : 'py-5 px-5 flex-grow'
+      }`}
+    >
       {/* Header Card - Hide on Mobile */}
       {!isMobile && (
         <div className="mb-[30px]">
@@ -371,18 +274,8 @@ export const ProductListSection = (): JSX.Element => {
         </div>
       )}
 
-      {/* Mobile Header */}
-      {isMobile && <MobileProductsHeader />}
-
       {/* Stats Cards */}
-      {isMobile ? (
-        // Mobile Stats Cards
-        <div>
-          {productStats.map((stat, index) => (
-            <MobileStatCard key={index} stat={stat} />
-          ))}
-        </div>
-      ) : (
+      {!isMobile && (
         // Desktop Stats Cards
         <div className="flex gap-[30px] w-full mb-[30px]">
           {productStats.map((stat, index) => (
@@ -423,81 +316,111 @@ export const ProductListSection = (): JSX.Element => {
         </div>
       )}
 
-      {/* Mobile Search Bar */}
-      {isMobile && <MobileSearchBar />}
-
       {/* Products Table/List */}
       {isMobile ? (
         // Mobile Product List
-        <div className="bg-white rounded-lg shadow-sm">
-          {loading ? (
-            <div className="text-center py-8">Loading products...</div>
-          ) : (
-            <>
-              <div className="divide-y divide-gray-100">
-                {products.map((product) => (
-                  <MobileProductCard key={product.id} product={product} />
-                ))}
-              </div>
-              
-              <MobilePagination 
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
+        <>
+          {/* Mobile Header ("Products" card) */}
+          <div className="p-4 bg-white rounded-lg shadow-sm mb-4">
+            <h1 className="text-xl font-['Cairo'] font-bold text-[#161919] mb-1">Products</h1>
+            <p className="text-sm text-[#B2B3B9]">Manage your products</p>
+          </div>
+          
+          {/* Stats Cards section */}
+          <div className="mb-4">
+            {productStats.map((stat, index) => (
+              <MobileStatCard 
+                key={index}
+                title={stat.title} 
+                value={stat.value} 
+                change={stat.change} 
+                trend={stat.trend as "up" | "down"}
               />
-            </>
-          )}
-        </div>
+            ))}
+          </div>
+          
+          {/* All Products Section Wrapper */}
+          <div className="bg-white rounded-lg shadow-sm mb-4"> 
+            <div className="p-4 border-b border-[#ECECEB]"> {/* Header for "All Products" and search bar */}
+              <h2 className="text-lg font-['Cairo'] font-bold mb-4 text-[#161919]">All Products</h2>
+              <MobileSearchBar />
+            </div>
+            
+            {loading ? (
+              <div className="text-center py-8">Loading products...</div>
+            ) : (
+              <>
+                <div> 
+                  {products.map((product) => (
+                    <MobileProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+                
+                {/* Footer with Pagination - Mobile view */}
+                <div className="border-t border-[#ECECEB] p-4"> 
+                  <Footer 
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    totalItems={totalItems}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={handlePageChange}
+                    isMobile={true}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        </>
       ) : (
         // Desktop Table View
         <Card className="bg-white rounded-xl">
           <CardContent className="flex flex-col gap-10 p-[30px]">
             {/* Table Header */}
             <div className="flex items-center justify-between w-full">
-              <h3 className="font-heading-4 text-colorblack text-[length:var(--heading-4-font-size)] tracking-[var(--heading-4-letter-spacing)] leading-[var(--heading-4-line-height)] [font-style:var(--heading-4-font-style)]">
+              <h3 className="font-heading-4 text-[#333333] text-xl font-bold leading-[1em]">
                 All Products
               </h3>
-              <div className="flex items-start gap-2">
-                <div className="flex w-[300px] items-center gap-2 p-2.5 bg-white rounded-lg border border-solid border-[#ececeb]">
-                  <SearchIcon className="w-[22px] h-[22px]" />
-                  <span className="font-label text-gray-3 text-[length:var(--label-font-size)] tracking-[var(--label-letter-spacing)] leading-[var(--label-line-height)] [font-style:var(--label-font-style)]">
+              <div className="flex items-center gap-2">
+                <div className="flex h-[43px] w-[300px] items-center gap-2 px-2.5 bg-white rounded-lg border border-solid border-[#ececeb]">
+                  <img src="/search-icon-title.svg" alt="Search" className="w-[22px] h-[22px]" />
+                  <span className="font-['Cairo'] text-[#B2B3B9] text-sm leading-[1.874em]">
                     Search item...
                   </span>
                 </div>
                 
-                <div className="flex items-start gap-2">
+                <div className="flex items-center gap-2">
                   <Button
                     variant="outline"
                     size="icon"
                     className="p-2.5 rounded-lg border-[#ececeb]"
                     onClick={() => fetchProducts(currentPage)}
                   >
-                    <RotateCcwIcon className="w-[22px] h-[22px]" />
+                    <img src="/refresh-icon-title.svg" alt="Refresh" className="w-[22px] h-[22px]" />
                   </Button>
                   <Button
                     variant="outline"
                     size="icon"
                     className="p-2.5 rounded-lg border-[#ececeb]"
                   >
-                    <CalendarIcon className="w-[22px] h-[22px]" />
+                    <img src="/calendar-icon-title.svg" alt="Calendar" className="w-[22px] h-[22px]" />
                   </Button>
                   <Button
                     variant="outline"
                     size="icon"
                     className="p-2.5 rounded-lg border-[#ececeb]"
                   >
-                    <FilterIcon className="w-[22px] h-[22px]" />
+                    <img src="/filter-icon-title.svg" alt="Filter" className="w-[22px] h-[22px]" />
                   </Button>
                   <Button
                     variant="outline"
                     size="icon"
                     className="p-2.5 rounded-lg border-[#ececeb]"
                   >
-                    <MoreVerticalIcon className="w-[22px] h-[22px]" />
+                    <img src="/dots-vertical-icon-title.svg" alt="Menu" className="w-[22px] h-[22px]" />
                   </Button>
                   <Button className="flex items-center gap-[15px] px-5 py-2.5 bg-[#4F56D3] rounded-md">
-                    <PlusCircleIcon className="w-[22px] h-[22px]" />
-                    <span className="font-semibold text-white text-sm">
+                    <img src="/plus-circle-icon-title.svg" alt="Add" className="w-[22px] h-[22px]" />
+                    <span className="font-['Cairo'] font-semibold text-[#EBF3EA] text-sm leading-[1.874em]">
                       Add New Product
                     </span>
                   </Button>
@@ -580,7 +503,7 @@ export const ProductListSection = (): JSX.Element => {
                             </div>
                           </div>
                           {selectedProducts.includes(product.id) && (
-                            <div className="absolute w-[5px] h-[90px] top-[-21px] left-0 bg-[#4F56D3]" />
+                            <div className="absolute w-[5px] h-full top-0 left-0 bg-[#4F56D3]" />
                           )}
                         </TableCell>
                         <TableCell className="font-paragraph text-[#161919] text-[length:var(--paragraph-font-size)] tracking-[var(--paragraph-letter-spacing)] leading-[var(--paragraph-line-height)] [font-style:var(--paragraph-font-style)]">
@@ -603,7 +526,7 @@ export const ProductListSection = (): JSX.Element => {
                             {product.status ? (
                               <CheckCircleIcon className="w-[22px] h-[22px]" />
                             ) : (
-                              <ClockIcon className="w-[22px] h-[22px]" />
+                              <img src="/hourglass.svg" alt="Pending" className="w-[22px] h-[22px]" />
                             )}
                             <span className="font-label-2 text-[length:var(--label-2-font-size)] tracking-[var(--label-2-letter-spacing)] leading-[var(--label-2-line-height)] [font-style:var(--label-2-font-style)]">
                               {getStatusDisplay(product.status)}
@@ -612,7 +535,7 @@ export const ProductListSection = (): JSX.Element => {
                         </TableCell>
                         <TableCell>
                           <Button variant="ghost" size="icon" className="p-0">
-                            <MoreHorizontalIcon className="w-8 h-8" />
+                            <img src="/dotsthreecircle.svg" alt="Menu" className="w-8 h-8" />
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -621,15 +544,16 @@ export const ProductListSection = (): JSX.Element => {
                 </TableBody>
               </Table>
 
-              {/* Footer with Pagination */}
-              <Footer 
-                currentPage={currentPage}
-                totalPages={totalPages}
-                totalItems={totalItems}
-                itemsPerPage={itemsPerPage}
-                onPageChange={handlePageChange}
-                isMobile={isMobile}
-              />
+              {/* Footer with Pagination - Desktop view */}
+              {!isMobile && (
+                <Footer 
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={totalItems}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={handlePageChange}
+                />
+              )}
             </div>
           </CardContent>
         </Card>

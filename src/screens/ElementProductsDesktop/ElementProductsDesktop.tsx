@@ -5,6 +5,7 @@ import { NavigationSidebarSection } from "./sections/NavigationSidebarSection/Na
 import { ProductListSection } from "./sections/ProductListSection/ProductListSection";
 import { Menu } from "lucide-react";
 import { Button } from "../../components/ui/button";
+import { Logo } from "../../components/ui/logo";
 
 export const ElementProductsDesktop = (): JSX.Element => {
   const [isMobile, setIsMobile] = useState(false);
@@ -36,9 +37,7 @@ export const ElementProductsDesktop = (): JSX.Element => {
       {isMobile && (
         <header className="flex items-center justify-between p-4 bg-white shadow-sm">
           <div className="flex items-center">
-            <div className="w-10 h-10 rounded-full bg-[#222] flex items-center justify-center">
-              <img src="/subtract.svg" alt="Logo" className="h-6 w-6" />
-            </div>
+            <Logo size="small" showText={false} />
           </div>
           <Button variant="ghost" onClick={toggleSidebar} className="p-1">
             <Menu size={24} />

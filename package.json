@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "name": "anima-project-next",
-  "description": "A Next.js project converted from Anima using the Shadcn UI library",
+  "name": "devcase-project-next",
+  "description": "Devcase Project",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -2,8 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Anima Project - Converted to Next.js',
-  description: 'A Next.js project converted from Anima using the Shadcn UI library',
+  title: 'Devcase Project',
+  description: 'Devcase Project',
 };
 
 export default function RootLayout({
