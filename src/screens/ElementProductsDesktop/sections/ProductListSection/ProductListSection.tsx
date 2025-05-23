@@ -751,7 +751,7 @@ export const ProductListSection = (): JSX.Element => {
                           </TableCell>
                           <TableCell>
                             <Button variant="ghost" size="icon" className="p-0">
-                              <MoreHorizontalIcon className="w-8 h-8 text-[#B2B3B9]" /> 
+                              <img src="/dotsthreecircle.svg" alt="Menu" className="w-8 h-8" />
                             </Button>
                           </TableCell>
                         </TableRow>
