@@ -2,7 +2,7 @@
 
 A modern point-of-sale system with product management capabilities built with React, Next.js, and Tailwind CSS.
 
-![DevCase Screenshot](public/screenshot.png)
+![Image](https://github.com/user-attachments/assets/1b783438-69f4-495e-bf37-2b3b882ae83f)
 
 ## Live Demo
 
