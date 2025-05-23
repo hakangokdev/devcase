@@ -44,8 +44,8 @@ export const Logo = ({ size = 'medium', showText = true }: LogoProps) => {
             style={{ 
               position: 'absolute',
               top: `${20 * sizeMultiplier[size]}px`,
-              width: 'auto', 
-              height: 'auto' 
+              width: `${28 * sizeMultiplier[size]}px`, 
+              height: `${20 * sizeMultiplier[size]}px` 
             }} 
           />
           <Image 
@@ -56,8 +56,8 @@ export const Logo = ({ size = 'medium', showText = true }: LogoProps) => {
             style={{ 
               position: 'absolute',
               top: `${11 * sizeMultiplier[size]}px`,
-              width: 'auto', 
-              height: 'auto' 
+              width: `${14 * sizeMultiplier[size]}px`, 
+              height: `${15 * sizeMultiplier[size]}px` 
             }} 
           />
         </div>

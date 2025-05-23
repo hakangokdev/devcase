@@ -10,7 +10,7 @@ import {
 import { Badge } from "../../../../components/ui/badge";
 import { Input } from "../../../../components/ui/input";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
-import { X, Search } from "lucide-react";
+import { X, Search, ChevronDown } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import { Logo } from "../../../../components/ui/logo";
 
@@ -63,22 +63,162 @@ const settingsItems = [
 
 export const NavigationSidebarSection = (): JSX.Element => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
-  // Check if we're on mobile
+  // Check device type
   useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    const checkDeviceType = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
     };
     
     // Initial check
-    checkIfMobile();
+    checkDeviceType();
     
     // Add event listener
-    window.addEventListener('resize', checkIfMobile);
+    window.addEventListener('resize', checkDeviceType);
     
     // Cleanup
-    return () => window.removeEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkDeviceType);
   }, []);
+
+  // Render different sidebar based on device type
+  if (isTablet) {
+    return (
+      <aside className="flex flex-col w-[80px] bg-white shadow-shadow-1 h-screen overflow-hidden">
+        {/* Header with Logo */}
+        <header className="flex h-[70px] items-center justify-center border-b border-[#ececeb]">
+          <Logo size="small" showText={false} />
+        </header>
+
+        <ScrollArea className="flex-1 h-[calc(100vh-70px)]">
+          <div className="flex flex-col items-center gap-6 py-6">
+            {/* Search Icon */}
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#F9F9F9] cursor-pointer">
+              <Search className="w-5 h-5 text-gray-400" />
+            </div>
+
+            <nav className="flex flex-col items-center gap-6 w-full">
+              {/* Main Menu Section */}
+              <div className="flex flex-col items-center gap-4 w-full">
+                <div className="flex flex-col items-center gap-1 w-full">
+                  {mainMenuItems.map((item, index) =>
+                    item.label === "Products" ? (
+                      <div
+                        key={index}
+                        className="flex flex-col items-center w-full"
+                      >
+                        <div className="flex w-full justify-center py-2 bg-[#4F56D3]">
+                          <img
+                            className="w-6 h-6"
+                            alt={item.label}
+                            src={item.icon}
+                          />
+                        </div>
+                        <div className="w-full flex justify-center pt-1">
+                          {item.subItems?.map((subItem, subIndex) => (
+                            subItem.active && (
+                              <div
+                                key={subIndex}
+                                className="w-1.5 h-1.5 rounded-full bg-[#4F56D3]"
+                              />
+                            )
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        key={index}
+                        className="flex w-full justify-center py-2"
+                      >
+                        <img
+                          className="w-6 h-6"
+                          alt={item.label}
+                          src={item.icon}
+                        />
+                      </div>
+                    ),
+                  )}
+                </div>
+              </div>
+
+              {/* Analytics Section */}
+              <div className="flex flex-col items-center gap-4 w-full">
+                <div className="flex flex-col items-center gap-1 w-full">
+                  {analyticsItems.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex w-full justify-center py-2 relative"
+                    >
+                      <img
+                        className="w-6 h-6"
+                        alt={item.label}
+                        src={item.icon}
+                      />
+                      {item.badge && (
+                        <Badge className="absolute top-0 right-1 w-4 h-4 bg-green rounded-full p-0 flex items-center justify-center">
+                          <span className="font-bold text-[#161919] text-[10px]">
+                            {item.badge}
+                          </span>
+                        </Badge>
+                      )}
+                      {item.hasDropdown && (
+                        <ChevronDown className="absolute bottom-0 right-2 w-3 h-3 text-gray-500" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Apps Section */}
+              <div className="flex flex-col items-center gap-4 w-full">
+                <div className="flex flex-col items-center gap-1 w-full">
+                  {appsItems.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex w-full justify-center py-2 relative"
+                    >
+                      <img
+                        className="w-6 h-6"
+                        alt={item.label}
+                        src={item.icon}
+                      />
+                      {item.badge && (
+                        <Badge className="absolute top-0 right-1 w-4 h-4 bg-green rounded-full p-0 flex items-center justify-center">
+                          <span className="font-bold text-[#161919] text-[10px]">
+                            {item.badge}
+                          </span>
+                        </Badge>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Settings Section */}
+              <div className="flex flex-col items-center gap-4 w-full">
+                <div className="flex flex-col items-center gap-1 w-full">
+                  {settingsItems.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex w-full justify-center py-2"
+                    >
+                      <img
+                        className="w-6 h-6"
+                        alt={item.label}
+                        src={item.icon}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </nav>
+          </div>
+        </ScrollArea>
+      </aside>
+    );
+  }
 
   return (
     <aside className={`flex flex-col ${isMobile ? 'w-full' : 'w-[260px]'} bg-white shadow-shadow-1 h-screen overflow-hidden`}>
